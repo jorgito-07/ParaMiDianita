@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nuestro Amor 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:      #c0162a;
+      --red-dark: #7a0b1a;
+      --red-deep: #3d0009;
+      --gold:     #f5c8d0;
+      --white:    #fff5f7;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 60% 0%, #e8203a 0%, #a00e20 40%, #3d0009 100%);
+      font-family: 'Lato', sans-serif;
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ── Floating hearts background ── */
+    #hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart-float {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.4rem;
+      animation: floatUp linear infinite;
+      opacity: 0;
+      filter: drop-shadow(0 0 4px rgba(255,100,120,.5));
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(-10deg) scale(.8); opacity: 0; }
+      10%  { opacity: .55; }
+      80%  { opacity: .35; }
+      100% { transform: translateY(-110vh) rotate(15deg) scale(1.1); opacity: 0; }
+    }
+
+    /* ── Main layout ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px 80px;
+      gap: 56px;
+    }
+
+    /* ── Hero title ── */
+    .hero {
+      text-align: center;
+      animation: fadeDown .9s ease both;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      letter-spacing: .12em;
+      color: var(--gold);
+      opacity: .85;
+      margin-bottom: 10px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 8vw, 5rem);
+      line-height: 1.1;
+      text-shadow: 0 4px 24px rgba(0,0,0,.4);
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* Names row */
+    .names-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .name-badge {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 600;
+      background: linear-gradient(135deg, #fff0f3 0%, #ffd6de 50%, #ffb3c1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 8px rgba(180,0,40,.5));
+      letter-spacing: .02em;
+    }
+
+    .names-plus {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .names-plus .heart-icon {
+      font-size: 1.6rem;
+      animation: heartbeat 1.4s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15%       { transform: scale(1.25); }
+      30%       { transform: scale(1); }
+      45%       { transform: scale(1.15); }
+    }
+
+    .hearts-deco {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 12px;
+      font-size: 1.1rem;
+      opacity: .7;
+      animation: fadeIn 1.2s 1s ease both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: .7; }
+    }
+
+    /* ── Counter card ── */
+    .counter-card {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,200,210,.25);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 36px 48px;
+      text-align: center;
+      max-width: 560px;
+      width: 100%;
+      animation: fadeUp .9s .2s ease both;
+      box-shadow: 0 8px 48px rgba(0,0,0,.3);
+    }
+
+    .counter-label {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.3rem;
+      color: var(--gold);
+      margin-bottom: 20px;
+      letter-spacing: .05em;
+    }
+
+    .counter-numbers {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .unit-value {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 7vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(200,0,40,.5);
+    }
+
+    .unit-name {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: rgba(255,220,228,.65);
+    }
+
+    .divider-dot {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: rgba(255,200,210,.3);
+      line-height: 1;
+      align-self: flex-start;
+      margin-top: 6px;
+    }
+
+    .start-date {
+      margin-top: 20px;
+      font-size: .82rem;
+      color: rgba(255,220,228,.55);
+      letter-spacing: .1em;
+    }
+
+    /* ── Photo grid ── */
+    .photos-section {
+      width: 100%;
+      max-width: 780px;
+      animation: fadeUp .9s .35s ease both;
+    }
+
+    .section-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .photo-slot {
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid rgba(255,200,210,.25);
+      background: rgba(255,255,255,.07);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      position: relative;
+    }
+
+    .photo-slot:hover {
+      transform: scale(1.04) translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.4);
+      border-color: rgba(255,200,210,.6);
+    }
+
+    .photo-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-slot .placeholder-icon { font-size: 2rem; opacity: .45; }
+    .photo-slot .placeholder-text {
+      font-size: .72rem;
+      color: rgba(255,220,228,.5);
+      text-align: center;
+      padding: 0 12px;
+    }
+
+    .photo-slot input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    /* Shimmer on hover for empty slots */
+    .photo-slot:not(.has-photo)::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.06) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform .5s;
+    }
+    .photo-slot:not(.has-photo):hover::after { transform: translateX(100%); }
+
+    /* ── Message ── */
+    .message-card {
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      animation: fadeUp .9s .5s ease both;
+    }
+
+    .message-card blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      font-style: italic;
+      line-height: 1.75;
+      color: rgba(255,235,240,.88);
+      border-left: 3px solid var(--gold);
+      padding-left: 22px;
+      text-align: left;
+    }
+
+    .message-card .signature {
+      margin-top: 18px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      color: var(--gold);
+    }
+
+    /* ── Decorative divider ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      opacity: .35;
+      width: 100%;
+      max-width: 400px;
+    }
+    .divider hr { flex: 1; border: none; border-top: 1px solid var(--gold); }
+    .divider span { font-size: 1.1rem; }
+
+    /* ── Animations ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Footer ── */
+    footer {
+      font-size: .75rem;
+      color: rgba(255,200,210,.3);
+      letter-spacing: .1em;
+      text-align: center;
+      animation: fadeUp .9s .65s ease both;
+    }
+
+    /* ── Phrase cards ── */
+    .phrase-card {
+      grid-column: 1 / -1;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,200,210,.2);
+      border-radius: 18px;
+      padding: 22px 28px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .phrase-card p {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      color: var(--gold);
+      line-height: 1.5;
+    }
+
+    .phrase-card .phrase-icon {
+      font-size: 1.4rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .counter-card { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating hearts -->
+<div id="hearts-bg"></div>
+
+<div class="page">
+
+  <!-- Hero -->
+  <header class="hero">
+    <p class="hero-eyebrow">✦ para siempre ✦</p>
+    <div class="names-row">
+      <span class="name-badge">Dianita</span>
+      <div class="names-plus">
+        <span class="heart-icon">❤️</span>
+      </div>
+      <span class="name-badge">Jorgito</span>
+    </div>
+    <div class="hearts-deco">
+      <span>💕</span><span>💗</span><span>💖</span><span>💗</span><span>💕</span>
+    </div>
+  </header>
+
+  <div class="divider"><hr/><span>💕</span><hr/></div>
+
+  <!-- Counter -->
+  <div class="counter-card">
+    <p class="counter-label">¡1 añito juntitos! 🎉</p>
+    <div class="counter-numbers">
+      <div class="unit">
+        <span class="unit-value" id="years">0</span>
+        <span class="unit-name">años</span>
+      </div>
+      <span class="divider-dot">·</span>
+      <div class="unit">
+        <span class="unit-value" id="months">0</span>
+        <span class="unit-name">meses</span>
+      </div>
+      <span class="divider-dot">·</span>
+      <div class="unit">
+        <span class="unit-value" id="days">0</span>
+        <span class="unit-name">días</span>
+      </div>
+      <span class="divider-dot">·</span>
+      <div class="unit">
+        <span class="unit-value" id="hours">0</span>
+        <span class="unit-name">horas</span>
+      </div>
+      <span class="divider-dot">·</span>
+      <div class="unit">
+        <span class="unit-value" id="minutes">0</span>
+        <span class="unit-name">minutos</span>
+      </div>
+      <span class="divider-dot">·</span>
+      <div class="unit">
+        <span class="unit-value" id="seconds">0</span>
+        <span class="unit-name">segundos</span>
+      </div>
+    </div>
+    <p class="start-date">Desde el 19 de mayo de 2025 💗</p>
+  </div>
+
+  <div class="divider"><hr/><span>💕</span><hr/></div>
+
+  <!-- Photos -->
+  <section class="photos-section">
+    <h2 class="section-title">Nuestros recuerditos 📸</h2>
+    <div class="photo-grid" id="photoGrid">
+      <!-- slots generated by JS -->
+    </div>
+  </section>
+
+  <div class="divider"><hr/><span>💕</span><hr/></div>
+
+  <!-- Message -->
+  <div class="message-card">
+    <blockquote>
+      Cada día contigo es mi favorito. Gracias por ser mi cómplice, mi calma y mi alegría.
+      Te quiero más de lo que las palabras pueden decir.
+    </blockquote>
+    <p class="signature">Con todo mi amor 🌹</p>
+  </div>
+
+  <footer>hecho por Jorgito para mi Dianita Emosha ❤️</footer>
+</div>
+
+<script>
+  /* ── Floating hearts ── */
+  const container = document.getElementById('hearts-bg');
+  const HEARTS = ['❤️','💕','💗','💓','💞','💖','🩷'];
+  const COUNT  = 28;
+
+  for (let i = 0; i < COUNT; i++) {
+    const el = document.createElement('span');
+    el.classList.add('heart-float');
+    el.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
+    el.style.left     = Math.random() * 100 + '%';
+    el.style.fontSize = (.8 + Math.random() * 1.4) + 'rem';
+    const dur = 8 + Math.random() * 12;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay   = -(Math.random() * dur) + 's';
+    container.appendChild(el);
+  }
+
+  /* ── Counter ── */
+  const START = new Date('2025-05-19T00:00:00');
+
+  function updateCounter() {
+    const now  = new Date();
+    let diff   = now - START; // ms
+
+    const secs  = Math.floor(diff / 1000) % 60;
+    const mins  = Math.floor(diff / 60000) % 60;
+    const hours = Math.floor(diff / 3600000) % 24;
+
+    // date-based y/m/d
+    let y = now.getFullYear() - START.getFullYear();
+    let m = now.getMonth()    - START.getMonth();
+    let d = now.getDate()     - START.getDate();
+    if (d < 0) { m--; const prev = new Date(now.getFullYear(), now.getMonth(), 0); d += prev.getDate(); }
+    if (m < 0) { y--; m += 12; }
+
+    document.getElementById('years').textContent   = y;
+    document.getElementById('months').textContent  = m;
+    document.getElementById('days').textContent    = d;
+    document.getElementById('hours').textContent   = String(hours).padStart(2,'0');
+    document.getElementById('minutes').textContent = String(mins).padStart(2,'0');
+    document.getElementById('seconds').textContent = String(secs).padStart(2,'0');
+  }
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
+  /* ── Photo slots with phrases between groups ── */
+  const grid   = document.getElementById('photoGrid');
+  const SLOTS  = 15;
+  const stored = [];
+
+  const PHRASES = [
+    { icon: '🌹', text: 'Eres la mejor parte de todos mis días' },
+    { icon: '💫', text: 'Contigo el tiempo vuela y a la vez quiero que no acabe nunca' },
+    { icon: '🌙', text: 'Gracias por hacerme reír hasta cuando no quiero' },
+    { icon: '💌', text: 'Eres mi lugar favorito en el mundo' },
+    { icon: '✨', text: 'Un año de sonrisas, abrazos y amor… y ojalá toda la vida más' },
+  ];
+
+  // Insert slots in groups of 3 with a phrase between each group
+  let photoCount = 0;
+  let phraseIdx  = 0;
+
+  for (let i = 0; i < SLOTS; i++) {
+    // Insert a phrase card after every 3 photos (except before the first)
+    if (i > 0 && i % 3 === 0 && phraseIdx < PHRASES.length) {
+      const p = PHRASES[phraseIdx++];
+      const card = document.createElement('div');
+      card.classList.add('phrase-card');
+      card.innerHTML = `<span class="phrase-icon">${p.icon}</span><p>${p.text}</p>`;
+      grid.appendChild(card);
+    }
+
+    const slot = document.createElement('div');
+    slot.classList.add('photo-slot');
+    slot.dataset.index = i;
+
+    if (stored[i]) {
+      const img = document.createElement('img');
+      img.src = stored[i];
+      slot.appendChild(img);
+      slot.classList.add('has-photo');
+    } else {
+      slot.innerHTML = `
+        <span class="placeholder-icon">📷</span>
+        <span class="placeholder-text">Toca para añadir una foto</span>
+      `;
+    }
+
+    const input = document.createElement('input');
+    input.type   = 'file';
+    input.accept = 'image/*';
+    input.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        stored[i] = ev.target.result;
+        slot.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = ev.target.result;
+        slot.appendChild(img);
+        slot.classList.add('has-photo');
+        const newInput = document.createElement('input');
+        newInput.type   = 'file';
+        newInput.accept = 'image/*';
+        slot.appendChild(newInput);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    slot.appendChild(input);
+    grid.appendChild(slot);
+  }
+</script>
+</body>
+</html>
