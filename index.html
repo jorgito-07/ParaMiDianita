@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nuestro Amor 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--gold:#f5c8d0;--white:#fff5f7;--red:#c0162a}
+
+    body{
+      min-height:100vh;
+      background:radial-gradient(ellipse at 60% 0%,#e8203a 0%,#a00e20 40%,#3d0009 100%);
+      font-family:'Lato',sans-serif;color:var(--white);overflow-x:hidden;
+    }
+
+    /* ══════════════════════════════
+       INTRO
+    ══════════════════════════════ */
+    #intro{
+      position:fixed;inset:0;z-index:100;
+      background:radial-gradient(ellipse at 50% 20%,#c0162a 0%,#7a0b1a 55%,#0d0003 100%);
+      display:flex;align-items:center;justify-content:center;
+      transition:opacity 1s ease,visibility 1s ease;
+    }
+    #intro.hidden{opacity:0;visibility:hidden;pointer-events:none}
+
+    .intro-content{
+      display:flex;flex-direction:column;align-items:center;
+      gap:36px;padding:40px 24px;
+      animation:fadeDown .9s ease both;
+      width:100%;max-width:480px;
+    }
+
+    .intro-title{
+      font-family:'Dancing Script',cursive;
+      font-size:clamp(1.4rem,5vw,2.2rem);
+      color:var(--gold);letter-spacing:.1em;text-align:center;
+    }
+
+    /* ── Horizontal timeline ── */
+    .tl-wrap{
+      width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;
+    }
+
+    /* Date labels row */
+    .tl-labels{
+      width:100%;display:flex;justify-content:space-between;align-items:flex-end;
+      padding:0 4px;
+    }
+    .tl-label{display:flex;flex-direction:column;align-items:center;gap:4px}
+    .tl-label-date{
+      font-family:'Lato',sans-serif;font-size:.7rem;
+      letter-spacing:.1em;text-transform:uppercase;
+      color:rgba(255,200,210,.7);
+    }
+    .tl-label-text{
+      font-family:'Dancing Script',cursive;
+      font-size:clamp(.85rem,2.5vw,1rem);
+      color:#fff5f7;text-align:center;line-height:1.3;
+    }
+    .tl-label.end .tl-label-date{color:#ffd700}
+    .tl-label.end .tl-label-text{color:#ffd700}
+
+    /* The track */
+    .tl-track-wrap{
+      width:100%;position:relative;height:40px;
+      display:flex;align-items:center;
+    }
+
+    .tl-track-bg{
+      position:absolute;left:0;right:0;height:4px;
+      background:rgba(255,200,210,.18);border-radius:4px;
+    }
+
+    /* Filled progress line, animated */
+    .tl-track-fill{
+      position:absolute;left:0;height:4px;
+      background:linear-gradient(to right,var(--gold),#ffd700);
+      border-radius:4px;width:0%;
+      animation:fillLine 4.5s cubic-bezier(.4,0,.2,1) forwards;
+      box-shadow:0 0 8px rgba(245,200,208,.5);
+    }
+    @keyframes fillLine{
+      0%  {width:0%}
+      100%{width:100%}
+    }
+
+    /* Dot start */
+    .tl-dot-start{
+      position:absolute;left:0;
+      width:13px;height:13px;border-radius:50%;
+      background:var(--gold);border:2px solid rgba(255,200,210,.5);
+      box-shadow:0 0 10px rgba(245,200,208,.8);
+      transform:translateX(-50%);
+    }
+
+    /* Dot end (pulsing gold) */
+    .tl-dot-end{
+      position:absolute;right:0;
+      width:15px;height:15px;border-radius:50%;
+      background:#ffd700;border:2px solid rgba(255,215,0,.5);
+      transform:translateX(50%);
+      animation:goldPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes goldPulse{
+      0%,100%{box-shadow:0 0 8px rgba(255,215,0,.5)}
+      50%{box-shadow:0 0 22px rgba(255,215,0,1)}
+    }
+
+    /* ── Travelling heart ── */
+    .tl-heart{
+      position:absolute;left:0;top:50%;
+      transform:translate(-50%,-50%);
+      font-size:1.6rem;
+      animation:heartTravel 4.5s cubic-bezier(.4,0,.2,1) forwards,
+                heartBeat    .6s ease-in-out infinite;
+      filter:drop-shadow(0 0 8px rgba(255,80,120,.7));
+      z-index:2;
+    }
+    @keyframes heartTravel{
+      0%  {left:0%}
+      100%{left:100%}
+    }
+    @keyframes heartBeat{
+      0%,100%{transform:translate(-50%,-50%) scale(1)}
+      50%    {transform:translate(-50%,-50%) scale(1.3)}
+    }
+
+    /* ── Sparkles container ── */
+    .sparkles{
+      position:absolute;right:0;top:50%;transform:translateY(-50%);
+      width:1px;height:1px;pointer-events:none;
+    }
+    .sparkle{
+      position:absolute;width:6px;height:6px;border-radius:50%;
+      background:#ffd700;opacity:0;
+    }
+    /* Each sparkle fires after 4.5s */
+    .sparkle:nth-child(1) {animation:spark1 .8s ease-out 4.6s forwards}
+    .sparkle:nth-child(2) {animation:spark2 .9s ease-out 4.7s forwards}
+    .sparkle:nth-child(3) {animation:spark3 .7s ease-out 4.65s forwards}
+    .sparkle:nth-child(4) {animation:spark4 1s  ease-out 4.75s forwards}
+    .sparkle:nth-child(5) {animation:spark5 .85s ease-out 4.8s forwards}
+    .sparkle:nth-child(6) {animation:spark6 .75s ease-out 4.55s forwards}
+    .sparkle:nth-child(7) {animation:spark7 .9s ease-out 4.7s forwards}
+    .sparkle:nth-child(8) {animation:spark8 .8s ease-out 4.62s forwards}
+
+    @keyframes spark1{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(-28px,-36px) scale(0);background:#ffd700}}
+    @keyframes spark2{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(20px,-42px) scale(0);background:#ff85c0}}
+    @keyframes spark3{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(36px,-20px) scale(0);background:#fff5a0}}
+    @keyframes spark4{0%{opacity:1;transform:translate(0,0) scale(1.5)}100%{opacity:0;transform:translate(-14px,-50px) scale(0);background:#ffd700}}
+    @keyframes spark5{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(12px,-30px) scale(0);background:#ffb3c1}}
+    @keyframes spark6{0%{opacity:1;transform:translate(0,0) scale(1.2)}100%{opacity:0;transform:translate(-36px,-18px) scale(0);background:#fff5a0}}
+    @keyframes spark7{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(28px,-44px) scale(0);background:#ffd700}}
+    @keyframes spark8{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(-10px,-38px) scale(0);background:#ff85c0}}
+
+    /* ── Star sparkles (✦ shapes) ── */
+    .star-spark{
+      position:absolute;font-size:1rem;opacity:0;color:#ffd700;
+      text-shadow:0 0 6px rgba(255,215,0,.8);
+    }
+    .star-spark:nth-child(9) {animation:starSpark1 1s ease-out 4.6s forwards}
+    .star-spark:nth-child(10){animation:starSpark2 1.1s ease-out 4.75s forwards}
+    .star-spark:nth-child(11){animation:starSpark3 .9s ease-out 4.68s forwards}
+
+    @keyframes starSpark1{0%{opacity:1;transform:translate(-20px,0) scale(1)}100%{opacity:0;transform:translate(-50px,-60px) scale(0)}}
+    @keyframes starSpark2{0%{opacity:1;transform:translate(10px,0) scale(1)}100%{opacity:0;transform:translate(40px,-55px) scale(0)}}
+    @keyframes starSpark3{0%{opacity:1;transform:translate(-5px,0) scale(1.2)}100%{opacity:0;transform:translate(20px,-70px) scale(0)}}
+
+    /* ── Month markers ── */
+    .tl-months{
+      width:100%;position:relative;height:28px;
+      display:flex;align-items:flex-start;
+    }
+    .month-mark{
+      position:absolute;
+      display:flex;flex-direction:column;align-items:center;
+      gap:3px;transform:translateX(-50%);
+    }
+    .month-tick{
+      width:2px;height:7px;
+      background:rgba(255,200,210,.4);border-radius:2px;
+    }
+    .month-name{
+      font-family:'Lato',sans-serif;font-size:.58rem;
+      letter-spacing:.05em;text-transform:uppercase;
+      color:rgba(255,200,210,.55);white-space:nowrap;
+    }
+    .month-mark.lit .month-tick{background:var(--gold);box-shadow:0 0 6px rgba(245,200,208,.7)}
+    .month-mark.lit .month-name{color:var(--gold)}
+
+    /* ── Arrival message ── */
+    .arrival-msg{
+      font-family:'Dancing Script',cursive;
+      font-size:clamp(1rem,3vw,1.3rem);
+      color:#ffffff;text-align:center;
+      opacity:0;animation:showMsg .8s ease forwards 5.2s;
+      text-shadow:0 0 12px rgba(255,215,0,.5);
+    }
+    @keyframes showMsg{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── Skip button ── */
+    .skip-btn{
+      font-family:'Dancing Script',cursive;font-size:1.2rem;
+      background:rgba(255,255,255,.11);border:1px solid rgba(255,200,210,.35);
+      color:#fff5f7;padding:12px 38px;border-radius:50px;
+      cursor:pointer;transition:background .25s,transform .2s;
+    }
+    .skip-btn:hover{background:rgba(255,255,255,.22);transform:scale(1.05)}
+
+    /* ══════════════════════════════
+       FLOATING HEARTS BG
+    ══════════════════════════════ */
+    #hearts-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .heart-float{
+      position:absolute;bottom:-60px;font-size:1.4rem;
+      animation:floatUp linear infinite;opacity:0;
+    }
+    @keyframes floatUp{
+      0%  {transform:translateY(0) rotate(-10deg) scale(.8);opacity:0}
+      10% {opacity:.5}
+      80% {opacity:.3}
+      100%{transform:translateY(-110vh) rotate(15deg) scale(1.1);opacity:0}
+    }
+
+    /* ══════════════════════════════
+       MAIN PAGE
+    ══════════════════════════════ */
+    .page{
+      position:relative;z-index:1;
+      display:flex;flex-direction:column;align-items:center;
+      padding:60px 20px 80px;gap:56px;
+    }
+    .hero{text-align:center;animation:fadeDown .9s ease both}
+    .hero-eyebrow{
+      font-family:'Dancing Script',cursive;
+      font-size:clamp(1.1rem,3vw,1.6rem);
+      letter-spacing:.12em;color:var(--gold);opacity:.85;margin-bottom:10px;
+    }
+    .names-row{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:18px;flex-wrap:wrap}
+    .name-badge{
+      font-family:'Dancing Script',cursive;
+      font-size:clamp(2rem,6vw,3.2rem);font-weight:600;
+      background:linear-gradient(135deg,#fff0f3 0%,#ffd6de 50%,#ffb3c1 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      filter:drop-shadow(0 2px 8px rgba(180,0,40,.5));
+    }
+    .names-plus{display:flex;flex-direction:column;align-items:center}
+    .heart-icon{font-size:1.6rem;animation:hbeat 1.4s ease-in-out infinite}
+    @keyframes hbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.25)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+    .hearts-deco{display:flex;gap:8px;justify-content:center;margin-top:12px;font-size:1.1rem;opacity:.7}
+
+    .counter-card{
+      background:rgba(255,255,255,.08);border:1px solid rgba(255,200,210,.25);
+      backdrop-filter:blur(12px);border-radius:24px;padding:36px 48px;
+      text-align:center;max-width:560px;width:100%;
+      animation:fadeUp .9s .2s ease both;box-shadow:0 8px 48px rgba(0,0,0,.3);
+    }
+    .counter-label{font-family:'Dancing Script',cursive;font-size:1.3rem;color:var(--gold);margin-bottom:20px}
+    .counter-numbers{display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+    .unit{display:flex;flex-direction:column;align-items:center;gap:4px}
+    .unit-value{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.4rem,7vw,3.8rem);font-weight:700;line-height:1;
+      color:#fff;text-shadow:0 2px 12px rgba(200,0,40,.5);
+    }
+    .unit-name{font-size:.72rem;text-transform:uppercase;letter-spacing:.18em;color:rgba(255,220,228,.65)}
+    .divider-dot{font-family:'Playfair Display',serif;font-size:3rem;color:rgba(255,200,210,.3);line-height:1;align-self:flex-start;margin-top:6px}
+    .start-date{margin-top:20px;font-size:.82rem;color:rgba(255,220,228,.55);letter-spacing:.1em}
+
+    .photos-section{width:100%;max-width:780px;animation:fadeUp .9s .35s ease both}
+    .section-title{font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--gold);text-align:center;margin-bottom:28px}
+    .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .photo-slot{
+      aspect-ratio:1/1;border-radius:18px;overflow:hidden;
+      border:2px solid rgba(255,200,210,.25);background:rgba(255,255,255,.07);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+      cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative;
+    }
+    .photo-slot:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4);border-color:rgba(255,200,210,.6)}
+    .photo-slot img{width:100%;height:100%;object-fit:cover}
+    .photo-slot .placeholder-icon{font-size:2rem;opacity:.45}
+    .photo-slot .placeholder-text{font-size:.72rem;color:rgba(255,220,228,.5);text-align:center;padding:0 12px}
+    .photo-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+    .phrase-card{
+      grid-column:1/-1;background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,200,210,.2);border-radius:18px;
+      padding:22px 28px;text-align:center;backdrop-filter:blur(8px);
+    }
+    .phrase-card p{font-family:'Dancing Script',cursive;font-size:clamp(1.1rem,3vw,1.5rem);color:var(--gold);line-height:1.5}
+    .phrase-card .phrase-icon{font-size:1.4rem;display:block;margin-bottom:6px}
+
+    .message-card{max-width:560px;width:100%;text-align:center;animation:fadeUp .9s .5s ease both}
+    .message-card blockquote{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.05rem,2.5vw,1.3rem);font-style:italic;line-height:1.75;
+      color:rgba(255,235,240,.88);border-left:3px solid var(--gold);padding-left:22px;text-align:left;
+    }
+    .message-card .signature{margin-top:18px;font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--gold)}
+
+    .divider{display:flex;align-items:center;gap:14px;opacity:.35;width:100%;max-width:400px}
+    .divider hr{flex:1;border:none;border-top:1px solid var(--gold)}
+    .divider span{font-size:1.1rem}
+    footer{font-size:.75rem;color:rgba(255,200,210,.3);letter-spacing:.1em;text-align:center}
+
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeUp  {from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)}}
+
+    @media(max-width:480px){
+      .photo-grid{grid-template-columns:repeat(2,1fr)}
+      .counter-card{padding:28px 24px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ INTRO ══ -->
+<div id="intro">
+  <div class="intro-content">
+
+    <p class="intro-title">una historia de amor 💕</p>
+
+    <div class="tl-wrap">
+      <!-- Labels -->
+      <div class="tl-labels">
+        <div class="tl-label start">
+          <span class="tl-label-date">19 · Mayo · 2025</span>
+          <span class="tl-label-text">Nuestro primer<br>día juntitos</span>
+        </div>
+        <div class="tl-label end">
+          <span class="tl-label-date">19 · Mayo · 2026</span>
+          <span class="tl-label-text">¡1 año de amor!</span>
+        </div>
+      </div>
+
+      <!-- Track -->
+      <div class="tl-track-wrap">
+        <div class="tl-track-bg"></div>
+        <div class="tl-track-fill"></div>
+        <div class="tl-dot-start"></div>
+
+        <!-- Travelling heart -->
+        <div class="tl-heart">❤️</div>
+
+        <!-- Sparkles at the end -->
+        <div class="sparkles">
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+          <div class="sparkle"></div>
+          <span class="star-spark">✦</span>
+          <span class="star-spark">✦</span>
+          <span class="star-spark">✦</span>
+        </div>
+
+        <div class="tl-dot-end"></div>
+      </div>
+
+      <!-- Month markers -->
+      <div class="tl-months" id="tlMonths"></div>
+    </div>
+
+    <p class="arrival-msg">¡Feliz primer aniversario mi Dianita! 🌹</p>
+
+    <button class="skip-btn" onclick="skipIntro()">Entrar ❤️</button>
+  </div>
+</div>
+
+<!-- ══ FLOATING HEARTS ══ -->
+<div id="hearts-bg"></div>
+
+<div class="page">
+  <header class="hero">
+    <p class="hero-eyebrow">✦ para siempre ✦</p>
+    <div class="names-row">
+      <span class="name-badge">Dianita</span>
+      <div class="names-plus"><span class="heart-icon">❤️</span></div>
+      <span class="name-badge">Jorgito</span>
+    </div>
+    <div class="hearts-deco"><span>💕</span><span>💗</span><span>💖</span><span>💗</span><span>💕</span></div>
+  </header>
+
+  <div class="divider"><hr/><span>💕</span><hr/></div>
+
+  <div class="counter-card">
+    <p class="counter-label">¡1 añito juntitos! 🎉</p>
+    <div class="counter-numbers">
+      <div class="unit"><span class="unit-value" id="years">0</span><span class="unit-name">años</span></div>
+      <span class="divider-dot">·</span>
+      <div class="unit"><span class="unit-value" id="months">0</span><span class="unit-name">meses</span></div>
+      <span class="divider-dot">·</span>
+      <div class="unit"><span class="unit-value" id="days">0</span><span class="unit-name">días</span></div>
+      <span class="divider-dot">·</span>
+      <div class="unit"><span class="unit-value" id="hours">0</span><span class="unit-name">horas</span></div>
+      <span class="divider-dot">·</span>
+      <div class="unit"><span class="unit-value" id="minutes">0</span><span class="unit-name">minutos</span></div>
+      <span class="divider-dot">·</span>
+      <div class="unit"><span class="unit-value" id="seconds">0</span><span class="unit-name">segundos</span></div>
+    </div>
+    <p class="start-date">Desde el 19 de mayo de 2025 💗</p>
+  </div>
+
+  <div class="divider"><hr/><span>💕</span><hr/></div>
+
+  <section class="photos-section">
+    <h2 class="section-title">Nuestros recuerditos 📸</h2>
+    <div class="photo-grid" id="photoGrid"></div>
+  </section>
+
+  <div class="divider"><hr/><span>💕</span><hr/></div>
+
+  <div class="message-card">
+    <blockquote>
+      Cada día contigo es mi favorito. Gracias por ser mi cómplice, mi calma y mi alegría.
+      Te quiero más de lo que las palabras pueden decir.
+    </blockquote>
+    <p class="signature">Con todo mi amor 🌹</p>
+  </div>
+
+  <footer>hecho por Jorgito para mi Dianita Emosha ❤️</footer>
+</div>
+
+<script>
+  // Month markers on timeline
+  // From May 2025 → May 2026 = 12 intervals, 13 points (including start & end)
+  // We show the 11 intermediate months (Jun→Apr) between the two endpoint dots
+  const months = ['Jun','Jul','Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr'];
+  const container2 = document.getElementById('tlMonths');
+  // 11 months spread across 100%, from ~8.33% to ~91.67% (each step = 100/12)
+  months.forEach((m, i) => {
+    const pct = ((i + 1) / 12) * 100;
+    const mark = document.createElement('div');
+    mark.className = 'month-mark';
+    mark.id = 'month-' + i;
+    mark.style.left = pct + '%';
+    mark.innerHTML = `<div class="month-tick"></div><span class="month-name">${m}</span>`;
+    container2.appendChild(mark);
+  });
+
+  // Light up months as heart travels (4.5s total)
+  const totalDur = 4500;
+  months.forEach((m, i) => {
+    const pct = (i + 1) / 12;
+    const delay = pct * totalDur;
+    setTimeout(() => {
+      const el = document.getElementById('month-' + i);
+      if (el) el.classList.add('lit');
+    }, delay);
+  });
+
+  function skipIntro(){
+    document.getElementById('intro').classList.add('hidden');
+  }
+
+  // Floating hearts
+  const bg=document.getElementById('hearts-bg');
+  const HH=['❤️','💕','💗','💓','💞','💖','🩷'];
+  for(let i=0;i<28;i++){
+    const el=document.createElement('span');
+    el.className='heart-float';
+    el.textContent=HH[Math.floor(Math.random()*HH.length)];
+    el.style.left=Math.random()*100+'%';
+    el.style.fontSize=(.8+Math.random()*1.4)+'rem';
+    const d=8+Math.random()*12;
+    el.style.animationDuration=d+'s';
+    el.style.animationDelay=-(Math.random()*d)+'s';
+    bg.appendChild(el);
+  }
+
+  // Counter
+  const START=new Date('2025-05-19T00:00:00');
+  function tick(){
+    const now=new Date(),diff=now-START;
+    const s=Math.floor(diff/1000)%60;
+    const m=Math.floor(diff/60000)%60;
+    const h=Math.floor(diff/3600000)%24;
+    let y=now.getFullYear()-START.getFullYear();
+    let mo=now.getMonth()-START.getMonth();
+    let d=now.getDate()-START.getDate();
+    if(d<0){mo--;d+=new Date(now.getFullYear(),now.getMonth(),0).getDate();}
+    if(mo<0){y--;mo+=12;}
+    document.getElementById('years').textContent=y;
+    document.getElementById('months').textContent=mo;
+    document.getElementById('days').textContent=d;
+    document.getElementById('hours').textContent=String(h).padStart(2,'0');
+    document.getElementById('minutes').textContent=String(m).padStart(2,'0');
+    document.getElementById('seconds').textContent=String(s).padStart(2,'0');
+  }
+  tick();setInterval(tick,1000);
+
+  // Photo grid
+  const grid=document.getElementById('photoGrid');
+  const PH=[
+    {icon:'🌹',text:'Eres la mejor parte de todos mis días'},
+    {icon:'💫',text:'Contigo el tiempo vuela y a la vez quiero que no acabe nunca'},
+    {icon:'🌙',text:'Gracias por hacerme reír hasta cuando no quiero'},
+    {icon:'💌',text:'Eres mi lugar favorito en el mundo'},
+    {icon:'✨',text:'Un año de sonrisas, abrazos y amor… y ojalá toda la vida más'},
+  ];
+  let pi=0;const stored=[];
+  for(let i=0;i<15;i++){
+    if(i>0&&i%3===0&&pi<PH.length){
+      const p=PH[pi++];
+      const c=document.createElement('div');
+      c.className='phrase-card';
+      c.innerHTML=`<span class="phrase-icon">${p.icon}</span><p>${p.text}</p>`;
+      grid.appendChild(c);
+    }
+    const slot=document.createElement('div');
+    slot.className='photo-slot';
+    slot.innerHTML=`<span class="placeholder-icon">📷</span><span class="placeholder-text">Toca para añadir una foto</span>`;
+    const inp=document.createElement('input');
+    inp.type='file';inp.accept='image/*';
+    inp.addEventListener('change',e=>{
+      const f=e.target.files[0];if(!f)return;
+      const r=new FileReader();
+      r.onload=ev=>{
+        stored[i]=ev.target.result;
+        slot.innerHTML='';
+        const img=document.createElement('img');
+        img.src=ev.target.result;
+        slot.appendChild(img);
+        slot.classList.add('has-photo');
+        const ni=document.createElement('input');
+        ni.type='file';ni.accept='image/*';
+        slot.appendChild(ni);
+      };
+      r.readAsDataURL(f);
+    });
+    slot.appendChild(inp);
+    grid.appendChild(slot);
+  }
+</script>
+</body>
+</html>
